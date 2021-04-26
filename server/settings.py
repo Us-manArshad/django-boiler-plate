@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import environ
 env = environ.Env()
-# env.read_env('.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -248,6 +248,20 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 SWAGGER_SETTINGS = {
     "DEFAULT_INFO": f"{ROOT_URLCONF}.api_info",
 }
+
+# Email settings
+EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
+EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
+EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+if DEBUG or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD):
+    # output email to console instead of sending
+    if not DEBUG:
+        logging.warning(
+            "You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails."
+        )
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Debug toolbar settings
