@@ -1,0 +1,8 @@
+*.pyc
+.idea/
+env/
+.terraform
+.env
+staticfiles/
+server/local_settings.py
+db.sqlite3
