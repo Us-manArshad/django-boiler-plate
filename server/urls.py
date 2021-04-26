@@ -41,7 +41,7 @@ if settings.DEBUG:
     schema_view = get_schema_view(
         api_info,
         public=True,
-        permission_classes=(permissions.IsAuthenticated,),
+        permission_classes=(permissions.AllowAny,),
     )
 
     urlpatterns += [
